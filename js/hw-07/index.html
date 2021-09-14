@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="#" />
+    <title>goit-js-hw-07</title>
+
+    <style>
+        main{padding-bottom: 150px;}
+        #validation-input,#gallery,#text,#ingredients,#counter,h1 {margin-bottom: 50px;}
+        #validation-input {border: 3px solid #bdbdbd;}
+        #validation-input.valid {border-color: #4caf50;}
+        #validation-input.invalid {border-color: #f44336;}
+        .gallery {
+            display: flex; 
+            flex-wrap: wrap; 
+            padding: 0; 
+            margin: -5px;
+            list-style: none;
+        }
+        .gallery__item {
+            width: calc(100% / 3 - 10px);
+            margin: 5px;
+        }
+        .gallery__img {
+            display: block; 
+            width: 100%; 
+            height: auto;
+        }
+        
+    </style>
+</head>
+<body>
+    <main>
+        <ul id="categories">
+            <li class="item">
+                <h2>Животные</h2>
+
+                <ul>
+                <li>Кот</li>
+                <li>Хомяк</li>
+                <li>Лошадь</li>
+                <li>Попугай</li>
+                </ul>
+            </li>
+            <li class="item">
+                <h2>Продукты</h2>
+
+                <ul>
+                <li>Хлеб</li>
+                <li>Петрушка</li>
+                <li>Творог</li>
+                </ul>
+            </li>
+            <li class="item">
+                <h2>Технологии</h2>
+
+                <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>React</li>
+                <li>Node</li>
+                </ul>
+            </li>
+        </ul>
+
+        <ul id="ingredients"></ul>
+        <ul id="gallery"></ul>
+
+        <div id="counter">
+            <button type="button" data-action="decrement">-1</button>
+            <span id="value">0</span>
+            <button type="button" data-action="increment">+1</button>
+        </div>
+
+        <input type="text" placeholder="Ваше имя?" id="name-input" />
+        <h1>Привет, <span id="name-output">незнакомец</span>!</h1>
+
+        <input
+            type="text"
+            id="validation-input"
+            data-length="6"
+            placeholder="Введи 6 символов"
+        />
+
+        <br />
+        <input id="font-size-control" type="range" />
+        <br />
+        <span id="text">Абракадабра!</span>
+
+        <div id="controls">
+            <input type="number" min="0" max="100" step="1" />
+            <button type="button" data-action="render">Создать</button>
+            <button type="button" data-action="destroy">Очистить</button>
+        </div>
+        
+        <div id="boxes"></div>
+    </main>
+
+    <script src="js/task-1.js" type="module"></script>
+    <script src="js/task-2.js" type="module"></script>
+    <script src="js/task-3.js" type="module"></script>
+    <script src="js/task-4.js" type="module"></script>
+    <script src="js/task-5.js" type="module"></script>
+    <script src="js/task-6.js" type="module"></script>
+    <script src="js/task-7.js" type="module"></script>
+    <script src="js/task-8.js" type="module"></script>
+</body>
+</html>

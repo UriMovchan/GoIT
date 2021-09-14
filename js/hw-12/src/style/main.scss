@@ -1,0 +1,111 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #f4f4f4;
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: auto;
+  padding: 0 25px;
+}
+
+.content {
+  width: 100%;
+  padding: 25px 0;
+}
+
+.countries__form {
+  width: 100%;
+  max-width: 780px;
+  margin: auto;
+  padding: 15px;
+}
+
+.country__title {
+  font-size: 55px;
+  text-align: center;
+  text-shadow: 1px 1px 5px black;
+}
+
+.input__field {
+  display: block;
+  width: 100%;
+  padding: 10px 25px;
+  font-size: 50px;
+  border-radius: 5px;
+  border: 1px solid #e6e6e6;
+
+  box-shadow: inset 0px 3px 5px 0px #bfbfbf4d;
+  &:focus,
+  &:hover {
+    outline: auto #999999aa;
+  }
+}
+
+.countrySearch {
+  z-index: 9999;
+  position: relative;
+  padding-top: 3px;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.countrySearch__list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 1px auto;
+  padding: 15px;
+  color: #e4e0e0;
+  font-size: 21px;
+  border: 2px solid #adadad;
+  border: none;
+  border-radius: 5px;
+  background: #333333;
+  list-style: none;
+}
+
+.countrySearch__item {
+  padding: 10px;
+}
+
+.countryInfo {
+  width: 780px;
+  margin: 0 auto;
+
+  h2 {
+    padding-top: 35px;
+    text-align: center;
+    font-size: 50px;
+  }
+}
+
+.countryInfo__descr {
+  display: flex;
+  justify-content: space-between;
+}
+
+.countryDescr {
+  padding: 15px 0;
+  font-size: 30px;
+}
+
+.countryDescr__name {
+  font-weight: 700;
+  margin-right: 5px;
+}
+
+.flag {
+  img {
+    width: 450px;
+    height: auto;
+  }
+}
