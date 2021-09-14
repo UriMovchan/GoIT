@@ -1,0 +1,21 @@
+.headline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  width: 100%;
+  text-align: center;
+  font-size: 35px;
+}
+
+.languages {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.statistics {
+  list-style: none;
+  margin: 0;
+  padding: 5px;
+}

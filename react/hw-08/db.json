@@ -1,0 +1,19 @@
+{
+  "contacts": [
+    {
+      "id": 1,
+      "name": "Urko1",
+      "number": 987654321
+    },
+    {
+      "id": 2,
+      "name": "Urko2",
+      "number": 987654321
+    },
+    {
+      "id": 3,
+      "name": "Urko3",
+      "number": 987654321
+    }
+  ]
+}

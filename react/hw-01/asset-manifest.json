@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/UriMovchan/goit-react-hw-01-components/static/css/main.a68361ed.chunk.css",
+    "main.js": "/UriMovchan/goit-react-hw-01-components/static/js/main.b56b63b7.chunk.js",
+    "main.js.map": "/UriMovchan/goit-react-hw-01-components/static/js/main.b56b63b7.chunk.js.map",
+    "runtime-main.js": "/UriMovchan/goit-react-hw-01-components/static/js/runtime-main.39298013.js",
+    "runtime-main.js.map": "/UriMovchan/goit-react-hw-01-components/static/js/runtime-main.39298013.js.map",
+    "static/js/2.3df9ea71.chunk.js": "/UriMovchan/goit-react-hw-01-components/static/js/2.3df9ea71.chunk.js",
+    "static/js/2.3df9ea71.chunk.js.map": "/UriMovchan/goit-react-hw-01-components/static/js/2.3df9ea71.chunk.js.map",
+    "index.html": "/UriMovchan/goit-react-hw-01-components/index.html",
+    "static/css/main.a68361ed.chunk.css.map": "/UriMovchan/goit-react-hw-01-components/static/css/main.a68361ed.chunk.css.map",
+    "static/js/2.3df9ea71.chunk.js.LICENSE.txt": "/UriMovchan/goit-react-hw-01-components/static/js/2.3df9ea71.chunk.js.LICENSE.txt",
+    "static/media/no-image.0e049a38.png": "/UriMovchan/goit-react-hw-01-components/static/media/no-image.0e049a38.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.39298013.js",
+    "static/js/2.3df9ea71.chunk.js",
+    "static/css/main.a68361ed.chunk.css",
+    "static/js/main.b56b63b7.chunk.js"
+  ]
+}

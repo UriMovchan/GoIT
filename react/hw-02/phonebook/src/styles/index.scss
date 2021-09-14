@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+}
+img {
+  display: block;
+  margin-top: -1px;
+}
+.headline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.title {
+  width: 100%;
+  text-align: center;
+  font-size: 35px;
+}
+
+.languages {
+  position: absolute;
+  flex-shrink: 0;
+  right: 25px;
+}
+
+.formTitle {
+  text-align: center;
+}
+
+.input {
+  width: 100%;
+  padding: 7px 15px;
+  font-size: 20px;
+  color: #5e5656;
+  border-radius: 5px;
+  border-color: #dcdcdc;
+}
+
+.contactList {
+  padding: 0;
+}

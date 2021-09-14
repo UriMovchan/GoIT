@@ -1,0 +1,23 @@
+.transaction-history {
+  width: 710px;
+  margin: 25px;
+}
+
+th {
+  padding: 15px;
+  text-align: center;
+  background: #00bdd4;
+
+  &:first-child {
+    border-top-left-radius: 5px;
+  }
+  &:last-child {
+    border-top-right-radius: 5px;
+  }
+}
+
+td {
+  padding: 15px;
+  text-align: center;
+  border: 1px solid #eaeaea;
+}
