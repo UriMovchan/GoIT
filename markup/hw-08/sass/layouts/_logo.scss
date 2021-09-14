@@ -1,0 +1,18 @@
+.logo {
+    display: block;
+    color: #212121;
+    font: 700 24px/1.19 'Raleway', sans-serif;
+    letter-spacing: 0.03em;
+    
+    @include from(desktop) {
+        font-size: 26px;
+    }
+
+    span {
+        color: getColor(active-link);
+    }
+
+    &--footer {
+        color: getColor('white');
+    }
+}

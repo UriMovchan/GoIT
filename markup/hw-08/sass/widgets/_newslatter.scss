@@ -1,0 +1,59 @@
+.newslatter {
+    
+    &__label {
+        display: block;
+        margin-bottom: 20px;
+        color: getColor('white');
+        font-weight: 700;
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    &__input {
+
+        width: 100%;    
+        max-width: 450px;
+        padding: 15px 0 15px 16px;
+        font-size: 16px;
+        line-height: 1.25;
+        color: rgba(255, 255, 255, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.15));
+        border-radius: 4px;
+        background: transparent;
+
+        @include to(desktop) {
+            margin-bottom: 20px;
+        }
+        @include from(desktop) {
+            width: 358px;
+            margin-right: 12px; 
+        }
+    }
+
+    &__btn {
+        display: inline-flex;
+        align-items: center;
+        
+        padding: 10px 30px;
+        color: getColor('white');
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.875;
+        letter-spacing: 0.06em;
+        border-radius: 4px;
+        background: getColor('active-link');
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+
+        @include to(desktop) {
+            margin: 0 auto;
+        }
+    }
+    
+    &__ico {
+        width: 24px;
+        height: 24px;
+        margin-left: 10px;
+        fill: getColor('white');
+    }
+}

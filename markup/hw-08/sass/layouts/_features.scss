@@ -1,0 +1,39 @@
+.features {
+    padding: 60px 0;
+   
+    @include from(desktop){
+        padding: 94px 0;
+    }
+}
+.features__ico {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #F5F4FA;
+    border-radius: 4px;
+    text-align: center;
+    padding: 25px 0;
+    margin-bottom: 30px;
+}
+
+.features__svg {
+    display: block;
+    width: 70px;
+    height: 70px;
+}
+
+.features__title {
+    margin: 0 0 20px;
+    font: inherit;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    @include from(tablet) {
+        text-align: left;
+    }
+}
+
+.features__text {
+    margin: 0;
+    line-height: 1.71;
+}

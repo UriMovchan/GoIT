@@ -1,0 +1,16 @@
+$brake: ("mobile": 480px, "tablet": 768px, "desktop": 1200px);
+
+$colors: (    
+    'document-bg':#E5E5E5,
+    'white': #fff,
+    'active-link': #2196F3,
+    'text-dark':#212121,
+    'text-grey':#757575,
+    'background-dark':#2F303A,
+    'background-grey':#F5F4FA,
+    'border-grey':#eee,
+    'svg-fill': #AFB1B8,
+);
+
+$transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1); 
+$transition-duration: 250ms cubic-bezier(0.4, 0, 0.2, 1); 

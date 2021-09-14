@@ -1,0 +1,30 @@
+@mixin container($width, $padding) { 
+    .container {
+        width: $width;
+        margin: 0 auto;
+        padding: $padding;
+    }
+} 
+
+@media screen and (max-width: 479px) { 
+    @include container(100%, 0 15px); 
+} 
+@media screen and (min-width: 480px) { 
+    @include container(480px, 0 15px); 
+} 
+@media screen and (min-width: 768px) { 
+    @include container(768px, 0 15px); 
+} 
+@media screen and (min-width: 1200px) { 
+    @include container(1200px, 0 15px); 
+} 
+
+.flex-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}

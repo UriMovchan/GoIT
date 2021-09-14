@@ -1,0 +1,43 @@
+.bussines-solution {
+  width: 100%;
+  text-align: center;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(47, 48, 58, 0.4)), to(rgba(47, 48, 58, 0.4))), url("../img/hero-img.webp") center no-repeat;
+  background: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url("../img/hero-img.webp") center no-repeat;
+  background-size: cover;
+}
+
+.bussines-solution .content {
+  padding: 200px 0;
+}
+
+.bussines-solution h1 {
+  width: 696px;
+  margin: 0 auto 30px;
+  color: getColor("white");
+  text-align: center;
+  font: 900 44px/1.37 Roboto;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.bussines-solution button {
+  padding: 10px 32px;
+  color: getColor("white");
+  font: 700 16px/1.875 Roboto;
+  letter-spacing: 0.06em;
+  border-radius: 4px;
+  background: getColor("active-link");
+  -webkit-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  border: 1px solid transparent;
+  -webkit-transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bussines-solution button:hover,
+.bussines-solution button:focus {
+  color: getColor("active-link");
+  border: 1px solid currentColor;
+  background: getColor("white");
+}
+/*# sourceMappingURL=hero.css.map */

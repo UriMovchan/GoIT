@@ -1,0 +1,11 @@
+@function getColor($key) {
+    @return map-get($colors, $key);
+}
+
+@function getRenge($range) {
+    @each $key, $value in $brake {
+        @if ($key == $range) {
+            @return $value;
+        } 
+    }
+}

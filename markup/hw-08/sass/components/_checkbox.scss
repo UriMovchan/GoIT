@@ -1,0 +1,16 @@
+.checkbox {
+    margin-right: 8px;
+    
+    &::after {
+        content: "";
+        display: block;
+        width: 16px;
+        height: 15px;
+        background: url('../img/check.svg') #fff;
+    }
+    
+    &:checked::after {
+        background: url('../img/checked.svg');
+    }
+}
+

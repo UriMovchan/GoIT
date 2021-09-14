@@ -1,0 +1,49 @@
+
+.what-we-do {
+    @include to(desktop) {
+        display: none;
+    }
+    padding: 47px 0 94px;
+    text-align: center;
+
+    h2 {margin: 0 auto 50px;}
+
+    li {width: 370px;}
+}
+
+
+.what-we-do-item {
+    position: relative;
+
+    &::after {
+        content: "";
+        z-index: 1;
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: block;
+        height: 70px;
+        background: rgba(47, 48, 58, 0.8);
+    }
+
+    img {
+        width: 100%;
+    }
+}
+.what-we-do-info {
+    z-index: 10;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    margin: 0;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: getColor('white');
+    opacity: 1;
+}

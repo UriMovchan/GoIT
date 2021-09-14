@@ -1,0 +1,26 @@
+.list {
+    @include from(tablet) {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -15px;
+    }
+}
+
+.list__item {
+    width: 100%;
+
+    @include to(tablet) {
+        &:not(:last-child) {
+            margin-bottom: 30px;
+        }
+    }
+
+    @include from(tablet) {
+        margin: 15px;
+        width: calc(100% / 2 - 30px);
+    }
+    
+    @include from(desktop) {
+        width: calc(100% / 4 - 30px);
+    }
+}

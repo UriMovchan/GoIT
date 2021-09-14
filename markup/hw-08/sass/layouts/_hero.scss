@@ -1,0 +1,84 @@
+.hero {
+    width: 100%;
+    text-align: center;
+    background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/mob/hero/hero.webp');
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+
+    @include dpr2 {
+        background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/mob/hero/hero@2x.webp');
+        
+    }
+    
+    @include dpr3 {
+        background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/mob/hero/hero@3x.webp');
+        
+    }
+
+    @include from(tablet) {
+        background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/tab/hero/hero.webp');
+        
+        
+        @include dpr2 {
+            background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/tab/hero/hero@2x.webp');
+            
+        }
+        
+        @include dpr3 {
+            background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/tab/hero/hero@3x.webp');
+            
+        }
+    }
+    @include from(desktop) {
+        background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/pc/hero/hero.webp');
+        
+        
+        @include dpr2 {
+            background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/pc/hero/hero@2x.webp');
+           
+        }
+        
+        @include dpr3 {
+            background-image: linear-gradient(rgba(47, 48, 58, 0.4), rgba(47, 48, 58, 0.4) 100%), url('../img/pc/hero/hero@3x.webp');
+            
+        }
+    }
+}
+.hero {
+    .content {
+        padding: 118px 0;
+    }
+}
+.hero__title {
+    max-width: 360px;
+    margin: 0 auto 30px;
+    color: getColor('white');
+    text-align: center;
+    font: 900 26px/1.615 Roboto;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+
+    @include from(desktop) {
+        max-width: 696px;
+        font: 900 44px/1.37 Roboto;
+    }
+}
+.hero__btn {
+    padding: 10px 32px;
+    color: getColor('white');
+    font: 700 16px/1.875 Roboto;
+    letter-spacing: 0.06em; 
+    border-radius: 4px;
+    background: getColor('active-link');
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+    border: 1px solid transparent;
+    transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:hover,
+    &:focus {
+        color: getColor('active-link');
+        border: 1px solid currentColor;
+        background: getColor('white');
+    }
+}

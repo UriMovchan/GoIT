@@ -1,0 +1,46 @@
+@mixin from($from) {
+    @media screen and (min-width: getRenge($from)) { @content; }
+}
+
+@mixin to($to) {
+    @media screen and (max-width: getRenge($to) - 1) { @content; }
+}
+
+@mixin from-to($from, $to) {
+    @media screen and (min-width: getRenge($from)) and (max-width: getRenge($to) - 1) { @content; }
+}
+
+@mixin dpr2 {
+    @media screen and (-webkit-min-device-pixel-ratio: 2),
+        screen and (   min--moz-device-pixel-ratio: 2),
+        screen and (     -o-min-device-pixel-ratio: 2/1),
+        screen and (        min-device-pixel-ratio: 2),
+        screen and (                min-resolution: 192dpi),
+        screen and (                min-resolution: 2dppx) 
+        { @content; }
+}
+@mixin dpr3 {
+    @media screen and (-webkit-min-device-pixel-ratio: 3),
+        screen and (   min--moz-device-pixel-ratio: 3),
+        screen and (     -o-min-device-pixel-ratio: 3/1),
+        screen and (        min-device-pixel-ratio: 3),
+        screen and (                min-resolution: 288dpi),
+        screen and (                min-resolution: 3dppx) 
+        { @content; }
+}
+
+
+
+
+
+// @mixin from($size) {
+//     @media (min-width: $size + px) { @content; }
+// }
+
+// @mixin to($size) {
+//     @media (max-width: $size + px) { @content; }
+// }
+
+// @mixin from-to($from, $to) {
+//     @media (min-width: $from + px) and (max-width: $to + px) { @content; }
+// }
