@@ -1,0 +1,1314 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Kapusta-System",
+    "description": "Showing off swagger-ui-express",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "https://kapusta-backend.herokuapp.com/api" }],
+  "tags": [
+    {
+      "name": "User",
+      "description": "User registration and authorization endpoints"
+    },
+    {
+      "name": "Currency-movement",
+      "description": "User currency movement endpoints"
+    }
+  ],
+  "paths": {
+    "/users/registration": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials or missing required fields",
+            "content": {}
+          },
+          "409": {
+            "description": "This email is already use",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/verify": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Resubmit email for verify",
+        "parameters": [],
+        "requestBody": {
+          "description": "Resubmit email for verify",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "User authorization",
+        "parameters": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Authorization object with tokens",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/google": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get login with google",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "description": "redirect on home page client with query parameters",
+                  "example": "https://kapusta-frontend.netlify.app/?accessToken=sYz4NOXqTPdT_UpQXksQQQ&refreshToken=jc2S1NZ_BPOOvGjRqNENFtxXeM&sid=61630acd13f65dd798f499d7#"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Auth only after register",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Logout user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token issued to the current user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get an information about user",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Token issued to the current user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials",
+            "content": {}
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/users/refresh": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Refresh token authorization",
+        "parameters": [
+          { "Bearer": [] },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Refresh token issued to the current user"
+          }
+        ],
+        "requestBody": {
+          "description": "Refresh authorization object with tokens",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/refreshRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/refreshResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid credentials",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get all currency movements",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "operation",
+            "description": "limit по умолчанию 20, page по умолчанию 1,category название категории из доходов или расходов. Категория доходов в расходах и наоборот не находится.sortBy или sortByDesc -- указать название поля для сортировки (_id, date, name, category, sum, createdAt ,  updatedAt). По умолчанию сортировка по убыванию по полю date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementsAllResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Empty array",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/create": {
+      "post": {
+        "tags": ["Currency-movement"],
+        "summary": "Create currency movement",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Create object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CurrencyMovementRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing required fields or value is not valid",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/{:id}": {
+      "delete": {
+        "tags": ["Currency-movement"],
+        "summary": "Delete currency movement",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "нужно указать id строки в журнале"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Line deleted",
+            "content": {}
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/balance": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get currency balance",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyBalanceResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/incomes": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get currency incomes",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "operation",
+            "description": "limit по умолчанию 20, page по умолчанию 1,category название категории из доходов или расходов. Категория доходов в расходах и наоборот не находится.sortBy или sortByDesc -- указать название поля для сортировки (_id, date, name, category, sum, createdAt ,  updatedAt). По умолчанию сортировка по убыванию по полю date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyIncomes"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Empty array",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/expends": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get all currency movements",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "operation",
+            "description": "limit по умолчанию 20, page по умолчанию 1,category название категории из доходов или расходов. Категория доходов в расходах и наоборот не находится.sortBy или sortByDesc -- указать название поля для сортировки (_id, date, name, category, sum, createdAt ,  updatedAt). По умолчанию сортировка по убыванию по полю date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementsAllResponse"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Empty array",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/adjustments": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get currency adjustments",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "operation",
+            "description": "limit по умолчанию 20, page по умолчанию 1,category название категории из доходов или расходов. Категория доходов в расходах и наоборот не находится.sortBy или sortByDesc -- указать название поля для сортировки (_id, date, name, category, sum, createdAt ,  updatedAt). По умолчанию сортировка по убыванию по полю date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyIncomes"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/total-months": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get currency total months",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCurrencyTotalMonth"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Empty array",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/currency-movements/summary-expenses{?year=2021}": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get currency summary expenses",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current year for expenses, валидация только на год"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementSummaryExpensesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementSummaryExpensesError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currency-movements/summary-income{?date=05/2021}": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get currency summary income",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current year for income с месяцем и годом"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementSummaryExpensesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementSummaryExpensesError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currency-movements/sum-category{?date=05/2021}": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "get sum all category, get total sum category:income,expenses",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current date for sum expenses с месяцем и годом"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementAllResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementAllError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/currencymovements/detailed-categories{?date=05/2021&category=products}": {
+      "get": {
+        "tags": ["Currency-movement"],
+        "summary": "Get detailed categories",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current date с месяцем и годом"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Current category fore example products"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetailedCategoriesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrencyMovementAllError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User name",
+            "example": "Guest"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "User's id",
+              "example": "32143232436545474"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            }
+          }
+        },
+        "example": {
+          "status": "success",
+          "code": 201,
+          "data": { "id": "1", "name": "Guest", "email": "1@gmail.com" }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "VerifyRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "headers": {
+              "type": "object",
+              "description": "Tokens",
+              "properties": {
+                "accessToken": {
+                  "type": "string",
+                  "description": "Token for access"
+                },
+                "refreshToken": {
+                  "type": "string",
+                  "description": "Token for refresh session"
+                },
+                "sid": {
+                  "type": "string",
+                  "description": "Session id"
+                }
+              }
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name"
+            },
+            "id": {
+              "type": "string",
+              "description": "User's id"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": " date for element created"
+            }
+          }
+        },
+        "example": {
+          "status": "success",
+          "code": 200,
+          "data": {
+            "headers": {
+              "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJzk",
+              "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+              "sid": "6162ee2cc5"
+            },
+            "email": "guest@example.com",
+            "name": "Guest",
+            "id": "6162e971",
+            "createdAt": "2021-10-12T13:26:44.794Z"
+          }
+        }
+      },
+      "refreshRequest": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "sid": {
+              "type": "string",
+              "description": "Session id"
+            }
+          }
+        },
+        "example": {
+          "sid": "6162ee2cc5"
+        }
+      },
+      "refreshResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "headers": {
+              "type": "object",
+              "description": "Tokens",
+              "properties": {
+                "accessToken": {
+                  "type": "string",
+                  "description": "Token for access"
+                },
+                "refreshToken": {
+                  "type": "string",
+                  "description": "Token for refresh session"
+                },
+                "sid": {
+                  "type": "string",
+                  "description": "Session id"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "headers": {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJzk",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+            "sid": "6162ee2cc5"
+          }
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "User's id",
+              "example": "32143232436545474"
+            },
+            "name": {
+              "type": "string",
+              "description": "User's name"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": " date for element created"
+            }
+          }
+        },
+        "example": {
+          "status": "success",
+          "code": 201,
+          "data": {
+            "id": "1",
+            "name": "Guest",
+            "email": "guest@example.com",
+            "createdAt": "2021-10-12T13:26:44.794Z"
+          }
+        }
+      },
+      "CurrencyMovementsAllResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "status": "ok",
+            "code": 200,
+            "data": {
+              "type": "object",
+              "description": "data",
+              "properties": {
+                "expends": {
+                  "type": "object",
+                  "description": "expends",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": " id element"
+                    },
+                    "date": {
+                      "type": "string",
+                      "description": " date for element"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": " name element"
+                    },
+                    "category": {
+                      "type": "string",
+                      "description": " category element"
+                    },
+                    "sum": {
+                      "type": "string",
+                      "description": " sum for element"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "description": " Time create element"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "description": " Time update element"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "status": "ok",
+          "code": 200,
+          "data": {
+            "expends": [
+              {
+                "_id": "615b256fea6ca16163b49323",
+                "date": "02.10.2021",
+                "name": "meat",
+                "category": "products",
+                "sum": 200,
+                "createdAt": "2021-10-04T16:01:51.615Z",
+                "updatedAt": "2021-10-04T16:01:51.615Z"
+              },
+              {
+                "_id": "615b5a8e3c16e5000e14c99f",
+                "date": "02.10.2021",
+                "name": "meat",
+                "category": "products",
+                "sum": 250,
+                "createdAt": "2021-10-04T19:48:30.798Z",
+                "updatedAt": "2021-10-04T19:48:30.798Z"
+              }
+            ]
+          }
+        }
+      },
+      "CurrencyMovementRequest": {
+        "type": "object",
+        "required": ["date", "name", "category", "sum"],
+        "properties": {
+          "date": {
+            "type": "date",
+            "description": "current date",
+            "example": "2021-01-01"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name currency",
+            "example": "Подарки"
+          },
+          "category": {
+            "type": "string",
+            "description": "Currency category",
+            "example": "other-income"
+          },
+          "sum": {
+            "type": "integer",
+            "description": "сумма дохода/расхода или новая сумма баланса",
+            "example": "1500"
+          }
+        }
+      },
+      "CurrencyMovementResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "date",
+              "description": "Current date",
+              "example": "2021-01-02"
+            },
+            "name": {
+              "type": "string",
+              "description": "name category",
+              "example": "Подарки"
+            },
+            "category": {
+              "type": "string",
+              "description": "categories",
+              "example": "other income"
+            },
+            "sum": {
+              "type": "integer",
+              "description": "Для корректировки баланса:Возвращается сумма корректировки",
+              "example": "1500"
+            }
+          }
+        },
+        "example": {
+          "status": "success",
+          "code": 201,
+          "data": {
+            "createdLine": {
+              "date": "2021-01-02",
+              "name": "Подарки",
+              "category": "other-income",
+              "sum": "1500 Для корректировки баланса:Возвращается сумма корректировки"
+            }
+          }
+        }
+      },
+      "GetCurrencyBalanceResponse": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "balance": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "status": "ok",
+          "code": 200,
+          "data": {
+            "balance": 166400
+          }
+        }
+      },
+      "GetCurrencyTotalMonth": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "totalMonths": {
+                  "type": "object",
+                  "properties": {
+                    "month": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "status": "ok",
+          "code": 200,
+          "data": {
+            "totalMonths": [
+              {
+                "month": "01-2020"
+              },
+              {
+                "month": "01-2021"
+              },
+              {
+                "month": "08-2021"
+              },
+              {
+                "month": "10-2021"
+              }
+            ]
+          }
+        }
+      },
+      "GetCurrencyIncomes": {
+        "type": "object",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": " id element"
+            },
+            "date": {
+              "type": "string",
+              "description": "Current date",
+              "example": "01.10.2021"
+            },
+            "name": {
+              "type": "string",
+              "description": "name category",
+              "example": "Подарки"
+            },
+            "category": {
+              "type": "string",
+              "description": "categories",
+              "example": "other income"
+            },
+            "sum": {
+              "type": "integer",
+              "description": "sum",
+              "example": "1500"
+            },
+            "createdAt": {
+              "type": "string",
+              "description": "Server date challenge",
+              "example": "2021-10-05T18:12:59.904Z"
+            },
+            "updatedAt": {
+              "type": "string",
+              "description": "Server date challenge",
+              "example": "2021-10-05T18:12:59.904Z"
+            }
+          }
+        },
+        "example": {
+          "status": "ok",
+          "code": 200,
+          "data": {
+            "expends": [
+              {
+                "_id": "615c95abe15423fb9de8b4cd",
+                "date": "04.10.2021",
+                "name": "adjustment",
+                "category": "adjustments",
+                "sum": 150,
+                "createdAt": "2021-10-05T18:12:59.904Z",
+                "updatedAt": "2021-10-05T18:12:59.904Z"
+              }
+            ]
+          }
+        }
+      },
+      "CurrencyMovementAllResponse": {
+        "type": "object",
+        "items": {
+          "result": {
+            "type": "object",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Current date",
+                  "example": "3249-2394-238"
+                },
+                "total": {
+                  "type": "integer",
+                  "description": "total sum",
+                  "example": "2000"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "status": "ok",
+          "code": 200,
+          "summary": {
+            "expenses": [
+              {
+                "_id": "products",
+                "total": 2850.42
+              }
+            ],
+            "income": [
+              {
+                "_id": "other-income",
+                "total": 200
+              }
+            ]
+          },
+          "totalExpenses": 2850.42,
+          "totalincome": 131200
+        }
+      },
+      "CurrencyMovementAllError": {
+        "type": "object",
+        "example": {
+          "status": "error",
+          "code": 400,
+          "message": "Bad Request"
+        }
+      },
+      "DetailedCategoriesResponse": {
+        "type": "object",
+        "items": {
+          "response": {
+            "type": "object",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Current date",
+                  "example": "3249-2394-238"
+                },
+                "sum": {
+                  "type": "integer",
+                  "description": "total sum",
+                  "example": "2000"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "status": "success",
+          "code": 200,
+          "response": [
+            {
+              "_id": "products",
+              "sum": 4700
+            }
+          ]
+        }
+      },
+      "CurrencyMovementSummaryExpensesResponse": {
+        "type": "object",
+        "items": {
+          "expends": {
+            "type": "object",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "Current date",
+                  "example": "3249-2394-238"
+                },
+                "date": {
+                  "type": "string",
+                  "description": "date",
+                  "example": "04.10.2020"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "name",
+                  "example": "adjustment"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "category",
+                  "example": "adjustment"
+                },
+                "sum": {
+                  "type": "integer",
+                  "description": "sum",
+                  "example": 150
+                },
+                "createdAt": {
+                  "type": "string",
+                  "description": "created at",
+                  "example": "2021-10-05T18:12:59.904Z"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "description": "updated at",
+                  "example": "2021-10-05T18:12:59.904Z"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "status": "ok",
+          "code": 200,
+          "data": {
+            "expends": [
+              {
+                "_id": "615c95abe15423fb9de8b4cd",
+                "date": "04.10.2021",
+                "name": "adjustment",
+                "category": "adjustments",
+                "sum": 150,
+                "createdAt": "2021-10-05T18:12:59.904Z",
+                "updatedAt": "2021-10-05T18:12:59.904Z"
+              }
+            ]
+          }
+        }
+      },
+      "CurrencyMovementSummaryExpensesError": {
+        "type": "object",
+        "example": {
+          "status": "error",
+          "code": 400,
+          "message": "Bad Request"
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

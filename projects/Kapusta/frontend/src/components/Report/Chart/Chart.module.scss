@@ -1,0 +1,15 @@
+@import '../../../styles/utils/mixins';
+
+.container {
+  overflow: hidden;
+
+  @include to(tablet) {
+    width: 282px;
+    margin: 40px auto 0 auto;
+    padding-bottom: 51px;
+  }
+
+  @include from(tablet) {
+    padding-bottom: 20px;
+  }
+}
