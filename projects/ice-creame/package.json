@@ -8,7 +8,7 @@
     "dev": "parcel src/*.html",
     "build": "parcel build --no-minify src/*.html",
     "predeploy": "parcel build --no-minify src/*.html",
-    "deploy": "rsync -r ./dist/* root@185.69.153.65:/home/urko.tech/icecream"
+    "deploy": "rsync -r ./dist/* bartek00@bartek00.ftp.tools:/home/bartek00/urdev.space/icecream"
   },
   "repository": {
     "type": "git",
