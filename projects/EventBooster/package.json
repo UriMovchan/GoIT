@@ -8,7 +8,7 @@
 		"dev": "parcel src/*.html",
 		"build": "parcel build src/*.html --public-url /EventBooster/",
 		"predeploy": "parcel build src/*.html",
-		"deploy": "rsync -r ./dist/* root@185.69.153.65:/home/urko.tech/eventbooster"
+		"deploy": "rsync -r ./dist/* bartek00@bartek00.ftp.tools:/home/bartek00/urdev.space/eventbooster"
 	},
 	"repository": {
 		"type": "git",
