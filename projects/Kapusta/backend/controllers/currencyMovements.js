@@ -143,7 +143,8 @@ const getTotalMonthsCtrl = async (req, res, next) => {
   const totalMonths = await getTotalMonths(userId);
   const getAggregatedMonths = () => {
     const years = {};
-    totalMonths.map(({ month }) => {
+
+    totalMonths.forEach(({ month }) => {
       const splittingDate = month.split('-');
       splittingDate[1] = monthsArray[+splittingDate[1] - 1];
       if (!years[+splittingDate[0]]) {
@@ -152,6 +153,7 @@ const getTotalMonthsCtrl = async (req, res, next) => {
         years[splittingDate[0]].push(splittingDate[1]);
       }
     });
+
     return years;
   };
   if (totalMonths.length > 0) {
@@ -179,7 +181,7 @@ const getDetailedCategories = async (req, res) => {
   const validateDate = /^(0[1-9]|1[0-2])\/(200[0-9]|201[0-9]|202[0-1])$/;
 
   if (!validateDate.test(date)) {
-    res.json({
+    return res.json({
       status: statusCode.ERROR,
       code: httpCode.BAD_REQUEST,
       message: message.INCORRECT_DATA,
@@ -189,15 +191,14 @@ const getDetailedCategories = async (req, res) => {
   const response = await getDetailedInfoCategories(category, dateSplit, userId);
 
   if (response.length === 0) {
-    res.json({
+    return res.json({
       status: statusCode.SUCCESS,
       code: httpCode.OK,
       message: message.NOT_FOUND,
     });
-    return;
   }
 
-  res.json({
+  return res.json({
     status: statusCode.SUCCESS,
     code: httpCode.OK,
     response,
@@ -213,10 +214,13 @@ const getSumCategoriesCtrl = async (req, res) => {
 
   const dateSplit = date.split('/');
 
-  const validateDate = /^(0[1-9]|1[0-2])\/(200[0-9]|201[0-9]|202[0-1])$/;
+  const currentDate = new Date().getDate();
+  const startDate = new Date('01.01.2000').getDate();
+  const incomeDate = new Date(date).getDate();
 
-  if (!validateDate.test(date)) {
-    res.json({
+  if (incomeDate < startDate || incomeDate > currentDate) {
+    console.log(1);
+    return res.json({
       status: statusCode.ERROR,
       code: httpCode.BAD_REQUEST,
       message: message.INCORRECT_DATA,
@@ -231,8 +235,7 @@ const getSumCategoriesCtrl = async (req, res) => {
   let totalExpenses = 0;
   let totalIncome = 0;
 
-  // eslint-disable-next-line array-callback-return
-  response.map(value => {
+  response.forEach(value => {
     const { _id, total } = value;
 
     if (value.categoryValidate) {
@@ -245,15 +248,14 @@ const getSumCategoriesCtrl = async (req, res) => {
   });
 
   if (response.length === 0) {
-    res.json({
+    return res.json({
       status: statusCode.SUCCESS,
       code: httpCode.OK,
       message: message.NOT_FOUND,
     });
-    return;
   }
 
-  res.json({
+  return res.json({
     status: statusCode.SUCCESS,
     code: httpCode.OK,
     summary,
@@ -263,7 +265,7 @@ const getSumCategoriesCtrl = async (req, res) => {
 };
 
 const getSummary = async (req, res) => {
-  const pathСheck = req.path === '/summary-expenses';
+  const pathCheck = req.path === '/summary-expenses';
 
   const { year } = req.query;
 
@@ -271,23 +273,25 @@ const getSummary = async (req, res) => {
     user: { id: userId },
   } = req;
 
-  const validateDate = /^(200[0-9]|201[0-9]|202[0-1])$/;
+  const currentYear = new Date().getFullYear();
+  const startYear = new Date('01.01.2000').getFullYear();
+  const incomeYear = new Date(year).getFullYear();
 
-  if (!validateDate.test(year)) {
-    res.json({
+  if (incomeYear < startYear || incomeYear > currentYear) {
+    return res.json({
       status: statusCode.ERROR,
       code: httpCode.BAD_REQUEST,
       message: message.INCORRECT_DATA,
     });
   }
 
-  const response = await getSummaryYear(year, pathСheck, userId);
+  const response = await getSummaryYear(year, pathCheck, userId);
 
   for (const i in response) {
     response[i]._id = monthsArray[response[i]._id - 1];
   }
 
-  res.json({
+  return res.json({
     status: statusCode.SUCCESS,
     code: httpCode.OK,
     result: response,

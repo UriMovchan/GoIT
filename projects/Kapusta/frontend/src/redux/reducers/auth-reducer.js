@@ -1,73 +1,77 @@
 import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
-import { authActions } from '../actions';
+import { authActions } from '../actions'; // Припускаю, що ви маєте файли authActions.js з описаними діями
 
 const initialUserState = { id: null, name: null, email: null, createdAt: null };
 
-const user = createReducer(initialUserState, {
-  [authActions.loginSuccess]: (_, { payload }) => ({
-    id: payload.data.id,
-    name: payload.data.name,
-    picture: payload.data.picture,
-    email: payload.data.email,
-  }),
-  [authActions.registerGoogleSuccess]: (_, { payload }) => ({
-    id: payload.data.id,
-    name: payload.data.name,
-    picture: payload.data.picture,
-    email: payload.data.email,
-    createdAt: payload.data.createdAt,
-  }),
-  [authActions.loginGoogleSuccess]: (_, { payload }) => ({
-    id: payload.data.id,
-    name: payload.data.name,
-    picture: payload.data.picture,
-    email: payload.data.email,
-    createdAt: payload.data.createdAt,
-  }),
-  [authActions.registerSuccess]: (_, { payload }) => payload.data,
-  [authActions.logoutSuccess]: () => initialUserState,
-  [authActions.getCurrentUserSuccess]: (_, { payload }) => ({
-    id: payload.data.id,
-    picture: payload.data.picture,
-    name: payload.data.name,
-    email: payload.data.email,
-  }),
+const user = createReducer(initialUserState, (builder) => {
+  builder
+    .addCase(authActions.loginSuccess, (_, { payload }) => ({
+      id: payload.data.id,
+      name: payload.data.name,
+      picture: payload.data.picture,
+      email: payload.data.email,
+    }))
+    .addCase(authActions.registerGoogleSuccess, (_, { payload }) => ({
+      id: payload.data.id,
+      name: payload.data.name,
+      picture: payload.data.picture,
+      email: payload.data.email,
+      createdAt: payload.data.createdAt,
+    }))
+    .addCase(authActions.loginGoogleSuccess, (_, { payload }) => ({
+      id: payload.data.id,
+      name: payload.data.name,
+      picture: payload.data.picture,
+      email: payload.data.email,
+      createdAt: payload.data.createdAt,
+    }))
+    .addCase(authActions.registerSuccess, (_, { payload }) => payload.data)
+    .addCase(authActions.logoutSuccess, () => initialUserState)
+    .addCase(authActions.getCurrentUserSuccess, (_, { payload }) => ({
+      id: payload.data.id,
+      picture: payload.data.picture,
+      name: payload.data.name,
+      email: payload.data.email,
+    }));
 });
 
 const setError = (_, { payload }) => payload;
 
-const error = createReducer(null, {
-  [authActions.registerError]: setError,
-  [authActions.loginError]: setError,
-  [authActions.logoutError]: setError,
-  [authActions.getCurrentUserError]: setError,
-  [authActions.refreshSessionError]: setError,
-  [authActions.loginGoogleError]: setError,
-  [authActions.registerGoogleError]: setError,
-  [authActions.clearErrors]: () => null,
-  [authActions.forgottenRejected]: setError,
-  [authActions.resetPasswordRejected]: setError,
-  [authActions.loginSuccess]: () => null,
+const error = createReducer(null, (builder) => {
+  builder
+    .addCase(authActions.registerError, setError)
+    .addCase(authActions.loginError, setError)
+    .addCase(authActions.logoutError, setError)
+    .addCase(authActions.getCurrentUserError, setError)
+    .addCase(authActions.refreshSessionError, setError)
+    .addCase(authActions.loginGoogleError, setError)
+    .addCase(authActions.registerGoogleError, setError)
+    .addCase(authActions.clearErrors, () => null)
+    .addCase(authActions.forgottenRejected, setError)
+    .addCase(authActions.resetPasswordRejected, setError)
+    .addCase(authActions.loginSuccess, () => null);
 });
 
-const isLoggedIn = createReducer(false, {
-  [authActions.refreshSessionSuccess]: () => true,
-  [authActions.loginSuccess]: () => true,
-  [authActions.loginGoogleSuccess]: () => true,
-  [authActions.registerGoogleSuccess]: () => true,
-  [authActions.getCurrentUserSuccess]: () => true,
-  [authActions.registerError]: () => false,
-  [authActions.loginError]: () => false,
-  [authActions.getCurrentUserError]: () => false,
-  [authActions.logoutSuccess]: () => false,
-  [authActions.refreshSessionError]: () => false,
+const isLoggedIn = createReducer(false, (builder) => {
+  builder
+    .addCase(authActions.refreshSessionSuccess, () => true)
+    .addCase(authActions.loginSuccess, () => true)
+    .addCase(authActions.loginGoogleSuccess, () => true)
+    .addCase(authActions.registerGoogleSuccess, () => true)
+    .addCase(authActions.getCurrentUserSuccess, () => true)
+    .addCase(authActions.registerError, () => false)
+    .addCase(authActions.loginError, () => false)
+    .addCase(authActions.getCurrentUserError, () => false)
+    .addCase(authActions.logoutSuccess, () => false)
+    .addCase(authActions.refreshSessionError, () => false);
 });
 
-const isFetching = createReducer(false, {
-  [authActions.getCurrentUserRequest]: () => true,
-  [authActions.getCurrentUserSuccess]: () => false,
-  [authActions.getCurrentUserError]: () => false,
+const isFetching = createReducer(false, (builder) => {
+  builder
+    .addCase(authActions.getCurrentUserRequest, () => true)
+    .addCase(authActions.getCurrentUserSuccess, () => false)
+    .addCase(authActions.getCurrentUserError, () => false);
 });
 
 const initialEmailVerificationState = {
@@ -76,19 +80,20 @@ const initialEmailVerificationState = {
   verificationStart: null,
 };
 
-const emailVerification = createReducer(initialEmailVerificationState, {
-  [authActions.loginSuccess]: () => initialEmailVerificationState,
-  [authActions.registerSuccess]: (_, { payload }) => ({
-    email: payload.data.email,
-    onVerification: true,
-    verificationStart: Date.parse(new Date()),
-  }),
-  [authActions.resendEmailVerification]: (_, { payload }) => ({
-    email: payload.email,
-    onVerification: true,
-    verificationStart: Date.parse(new Date()),
-  }),
-  [authActions.registerError]: () => initialEmailVerificationState,
+const emailVerification = createReducer(initialEmailVerificationState, (builder) => {
+  builder
+    .addCase(authActions.loginSuccess, () => initialEmailVerificationState)
+    .addCase(authActions.registerSuccess, (_, { payload }) => ({
+      email: payload.data.email,
+      onVerification: true,
+      verificationStart: Date.parse(new Date()),
+    }))
+    .addCase(authActions.resendEmailVerification, (_, { payload }) => ({
+      email: payload.email,
+      onVerification: true,
+      verificationStart: Date.parse(new Date()),
+    }))
+    .addCase(authActions.registerError, () => initialEmailVerificationState);
 });
 
 const initialForgottenState = {
@@ -97,27 +102,29 @@ const initialForgottenState = {
   resetStart: null,
 };
 
-const forgotten = createReducer(initialForgottenState, {
-  [authActions.forgottenPending]: () => {},
-  [authActions.forgottenFulfilled]: (_, { payload }) => ({
-    email: payload.email,
-    onReset: true,
-    resetStart: Date.parse(new Date()),
-  }),
-  [authActions.forgottenRejected]: (_, { payload }) => initialForgottenState,
+const forgotten = createReducer(initialForgottenState, (builder) => {
+  builder
+    .addCase(authActions.forgottenPending, () => {})
+    .addCase(authActions.forgottenFulfilled, (_, { payload }) => ({
+      email: payload.email,
+      onReset: true,
+      resetStart: Date.parse(new Date()),
+    }))
+    .addCase(authActions.forgottenRejected, (_, { payload }) => initialForgottenState);
 });
 
 const initialResetPasswordState = {
   success: false,
 };
-const resetPassword = createReducer(initialResetPasswordState, {
-  [authActions.resetPasswordFulfilled]: (_, { payload }) => ({
-    success: payload,
-  }),
-  [authActions.resetPasswordRejected]: (_, { payload }) =>
-    initialResetPasswordState,
-  [authActions.loginGoogleSuccess]: () => initialResetPasswordState,
-  [authActions.forgottenFulfilled]: () => initialResetPasswordState,
+
+const resetPassword = createReducer(initialResetPasswordState, (builder) => {
+  builder
+    .addCase(authActions.resetPasswordFulfilled, (_, { payload }) => ({
+      success: payload,
+    }))
+    .addCase(authActions.resetPasswordRejected, (_, { payload }) => initialResetPasswordState)
+    .addCase(authActions.loginGoogleSuccess, () => initialResetPasswordState)
+    .addCase(authActions.forgottenFulfilled, () => initialResetPasswordState);
 });
 
 export default combineReducers({

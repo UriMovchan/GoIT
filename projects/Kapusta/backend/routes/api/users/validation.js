@@ -5,7 +5,7 @@ const schemaRegistrationUser = Joi.object({
   name: Joi.string()
     .min(3)
     .max(40)
-    .pattern(/^[A-z]+(?:\s+[A-z]+)*$|^[А-я]+(?:\s+[А-я]+)*$/)
+    .pattern(/^[A-z]+(?:\s+[A-z]+)*$|^[А-яІіЄє]+(?:\s+[А-яІіЄє]+)*$/)
     .default('Guest')
     .optional(),
   password: Joi.string().min(6).max(30).required(),

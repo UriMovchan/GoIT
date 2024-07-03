@@ -12,7 +12,9 @@ function MonthlySummary() {
     () => dispatch(kapustaOperations.fetchMonthlySummary()),
     [dispatch],
   );
-  useEffect(() => onFetchMonthlySummary(), [onFetchMonthlySummary]);
+  useEffect(() => {
+    onFetchMonthlySummary();
+  }, [onFetchMonthlySummary]);
 
   return (
     <div className={styles.SummaryWidget}>

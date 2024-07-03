@@ -2,113 +2,110 @@ import { combineReducers } from 'redux';
 import { createReducer } from '@reduxjs/toolkit';
 import { kapustaActions } from '../actions';
 
-const totalBalance = createReducer('', {
-  [kapustaActions.totalBalanceSuccess]: (_, { payload }) =>
-    payload.data.balance,
-  [kapustaActions.addTotalBalanceSuccess]: (_, { payload }) => payload,
+const totalBalance = createReducer('', (builder) => {
+  builder
+    .addCase(kapustaActions.totalBalanceSuccess, (_, { payload }) =>
+      payload.data.balance
+    )
+    .addCase(kapustaActions.addTotalBalanceSuccess, (_, { payload }) => payload);
 });
 
-const loading = createReducer(false, {
-  [kapustaActions.addTotalBalanceSuccess]: () => true,
-  [kapustaActions.addTotalBalanceRequest]: () => false,
-  [kapustaActions.addTotalBalanceError]: () => false,
-  [kapustaActions.totalBalanceSuccess]: () => true,
-  [kapustaActions.totalBalanceRequest]: () => false,
-  [kapustaActions.totalBalanceError]: () => false,
+const loading = createReducer(false, (builder) => {
+  builder
+    .addCase(kapustaActions.addTotalBalanceSuccess, () => true)
+    .addCase(kapustaActions.addTotalBalanceRequest, () => false)
+    .addCase(kapustaActions.addTotalBalanceError, () => false)
+    .addCase(kapustaActions.totalBalanceSuccess, () => true)
+    .addCase(kapustaActions.totalBalanceRequest, () => false)
+    .addCase(kapustaActions.totalBalanceError, () => false);
 });
 
-const reportYear = createReducer(new Date().getFullYear(), {
-  [kapustaActions.incrementReportYear]: (state, _action) => state + 1,
-  [kapustaActions.decrementReportYear]: (state, _action) => state - 1,
+const reportYear = createReducer(new Date().getFullYear(), (builder) => {
+  builder
+    .addCase(kapustaActions.incrementReportYear, (state, _action) => state + 1)
+    .addCase(kapustaActions.decrementReportYear, (state, _action) => state - 1);
 });
 
-const reportMonth = createReducer(new Date().getMonth(), {
-  [kapustaActions.changeReportMonth]: (_state, { payload }) => payload,
-  [kapustaActions.incrementReportMonth]: (state, _action) => state + 1,
-  [kapustaActions.decrementReportMonth]: (state, _action) => state - 1,
+const reportMonth = createReducer(new Date().getMonth(), (builder) => {
+  builder
+    .addCase(kapustaActions.changeReportMonth, (_state, { payload }) => payload)
+    .addCase(kapustaActions.incrementReportMonth, (state, _action) => state + 1)
+    .addCase(kapustaActions.decrementReportMonth, (state, _action) => state - 1);
 });
 
-const reportYears = createReducer([], {
-  [kapustaActions.changeReportYears]: (_state, { payload }) => payload,
+const reportYears = createReducer([], (builder) => {
+  builder.addCase(kapustaActions.changeReportYears, (_state, { payload }) => payload);
 });
 
-const reportSummary = createReducer(
-  {},
-  {
-    [kapustaActions.getSumCategorySuccess]: (_, { payload }) => payload.summary,
-  },
-);
-
-const totalIncome = createReducer('', {
-  [kapustaActions.getSumCategorySuccess]: (_, { payload }) =>
-    payload.totalIncome,
+const reportSummary = createReducer({}, (builder) => {
+  builder.addCase(kapustaActions.getSumCategorySuccess, (_, { payload }) => payload.summary);
 });
 
-const totalExpenses = createReducer('', {
-  [kapustaActions.getSumCategorySuccess]: (_, { payload }) =>
-    payload.totalExpenses,
+const totalIncome = createReducer('', (builder) => {
+  builder.addCase(kapustaActions.getSumCategorySuccess, (_, { payload }) => payload.totalIncome);
 });
 
-const monthlySummary = createReducer([], {
-  [kapustaActions.fetchMonthlySummarySuccess]: (_, { payload }) => payload,
+const totalExpenses = createReducer('', (builder) => {
+  builder.addCase(kapustaActions.getSumCategorySuccess, (_, { payload }) => payload.totalExpenses);
 });
 
-const monthlySummaryIncome = createReducer([], {
-  [kapustaActions.fetchMonthlySummaryIncomeSuccess]: (_, { payload }) =>
-    payload,
+const monthlySummary = createReducer([], (builder) => {
+  builder.addCase(kapustaActions.fetchMonthlySummarySuccess, (_, { payload }) => payload);
 });
 
-const error = createReducer(null, {
-  [kapustaActions.fetchMonthlySummaryError]: (_, { payload }) => payload,
-  [kapustaActions.fetchExpenseError]: (_, { payload }) => payload,
-  [kapustaActions.fetchIncomeChartDataError]: (_, { payload }) => payload,
-  [kapustaActions.fetchAdjustmentsError]: (_, { payload }) => payload,
-  [kapustaActions.fetchExpensesChartDataError]: (_, { payload }) => payload,
-  [kapustaActions.fetchMonthlySummaryError]: (_, { payload }) => payload,
-  [kapustaActions.fetchIncomeError]: (_, { payload }) => payload,
-  [kapustaActions.totalBalanceError]: (_, { payload }) => payload,
-  [kapustaActions.addAdjustmentsError]: (_, { payload }) => payload,
-  [kapustaActions.addExpenseError]: (_, { payload }) => payload,
-  [kapustaActions.addIncomeError]: (_, { payload }) => payload,
-  [kapustaActions.addTotalBalanceError]: (_, { payload }) => payload,
-  [kapustaActions.deleteAdjustmentsError]: (_, { payload }) => payload,
-  [kapustaActions.deleteExpenseError]: (_, { payload }) => payload,
-  [kapustaActions.deleteIncomeError]: (_, { payload }) => payload,
+const monthlySummaryIncome = createReducer([], (builder) => {
+  builder.addCase(kapustaActions.fetchMonthlySummaryIncomeSuccess, (_, { payload }) => payload);
 });
 
-const expensesChartData = createReducer([], {
-  [kapustaActions.fetchExpensesChartDataSuccess]: (_state, { payload }) =>
-    payload,
-});
-const incomeChartData = createReducer([], {
-  [kapustaActions.fetchIncomeChartDataSuccess]: (_state, { payload }) =>
-    payload,
-});
-
-const expense = createReducer([], {
-  [kapustaActions.fetchExpenseSuccess]: (_, { payload }) => payload,
-  [kapustaActions.addExpenseSuccess]: (state, { payload }) => [
-    payload,
-    ...state,
-  ],
-  [kapustaActions.deleteExpenseSuccess]: (state, { payload }) =>
-    state.filter(({ _id }) => _id !== payload),
-});
-
-const income = createReducer([], {
-  [kapustaActions.fetchIncomeSuccess]: (_, { payload }) => payload,
-  [kapustaActions.addIncomeSuccess]: (state, { payload }) => [
-    payload,
-    ...state,
-  ],
-  [kapustaActions.deleteIncomeSuccess]: (state, { payload }) =>
-    state.filter(({ _id }) => _id !== payload),
+const error = createReducer(null, (builder) => {
+  builder
+    .addCase(kapustaActions.fetchMonthlySummaryError, (_, { payload }) => payload)
+    .addCase(kapustaActions.fetchExpenseError, (_, { payload }) => payload)
+    .addCase(kapustaActions.fetchIncomeChartDataError, (_, { payload }) => payload)
+    .addCase(kapustaActions.fetchAdjustmentsError, (_, { payload }) => payload)
+    .addCase(kapustaActions.fetchExpensesChartDataError, (_, { payload }) => payload)
+    .addCase(kapustaActions.fetchIncomeError, (_, { payload }) => payload)
+    .addCase(kapustaActions.totalBalanceError, (_, { payload }) => payload)
+    .addCase(kapustaActions.addAdjustmentsError, (_, { payload }) => payload)
+    .addCase(kapustaActions.addExpenseError, (_, { payload }) => payload)
+    .addCase(kapustaActions.addIncomeError, (_, { payload }) => payload)
+    .addCase(kapustaActions.addTotalBalanceError, (_, { payload }) => payload)
+    .addCase(kapustaActions.deleteAdjustmentsError, (_, { payload }) => payload)
+    .addCase(kapustaActions.deleteExpenseError, (_, { payload }) => payload)
+    .addCase(kapustaActions.deleteIncomeError, (_, { payload }) => payload);
 });
 
-const adjustments = createReducer([], {
-  [kapustaActions.fetchAdjustmentsSuccess]: (_, { payload }) => payload,
-  [kapustaActions.deleteAdjustmentsSuccess]: (state, { payload }) =>
-    state.filter(({ _id }) => _id !== payload),
+const expensesChartData = createReducer([], (builder) => {
+  builder.addCase(kapustaActions.fetchExpensesChartDataSuccess, (_state, { payload }) => payload);
+});
+const incomeChartData = createReducer([], (builder) => {
+  builder.addCase(kapustaActions.fetchIncomeChartDataSuccess, (_state, { payload }) => payload);
+});
+
+const expense = createReducer([], (builder) => {
+  builder
+    .addCase(kapustaActions.fetchExpenseSuccess, (_, { payload }) => payload)
+    .addCase(kapustaActions.addExpenseSuccess, (state, { payload }) => [payload, ...state])
+    .addCase(kapustaActions.deleteExpenseSuccess, (state, { payload }) =>
+      state.filter(({ _id }) => _id !== payload)
+    );
+});
+
+const income = createReducer([], (builder) => {
+  builder
+    .addCase(kapustaActions.fetchIncomeSuccess, (_, { payload }) => payload)
+    .addCase(kapustaActions.addIncomeSuccess, (state, { payload }) => [payload, ...state])
+    .addCase(kapustaActions.deleteIncomeSuccess, (state, { payload }) =>
+      state.filter(({ _id }) => _id !== payload)
+    );
+});
+
+const adjustments = createReducer([], (builder) => {
+  builder
+    .addCase(kapustaActions.fetchAdjustmentsSuccess, (_, { payload }) => payload)
+    .addCase(kapustaActions.deleteAdjustmentsSuccess, (state, { payload }) =>
+      state.filter(({ _id }) => _id !== payload)
+    );
 });
 
 export default combineReducers({

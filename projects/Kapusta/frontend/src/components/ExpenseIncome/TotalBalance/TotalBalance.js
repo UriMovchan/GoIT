@@ -2,10 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { kapustaSelectors } from '../../../redux/selectors';
 import { kapustaOperations } from '../../../redux/operations';
-import {
-  inputChangeHandler,
-  inputBlurHandler,
-} from '../../../helpers/priceInputParser';
+import { inputChangeHandler, inputBlurHandler } from '../../../helpers/priceInputParser';
 import BalanceModal from '../BalanceModal';
 import styles from './TotalBalance.module.scss';
 import { Link } from 'react-router-dom';
@@ -51,9 +48,7 @@ const TotalBalance = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (
-      parseFloat(getBalance).toFixed(2) === parseFloat(balanceValue).toFixed(2)
-    ) {
+    if (parseFloat(getBalance).toFixed(2) === parseFloat(balanceValue).toFixed(2)) {
       enterBalance();
       return;
     }

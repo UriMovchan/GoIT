@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import useDebounce from '../helpers/useDebounce';
 import { authOperations } from '../redux/operations';
-import googleSymbol from '../images/google-symbol.svg';
+// import googleSymbol from '../images/google-symbol.svg';
 import loginStyles from '../styles/Login.module.scss';
 
 import { authSelectors } from '../redux/selectors';
@@ -30,16 +30,15 @@ export default function LoginPage() {
   const fetchError = useSelector(authSelectors.getError);
   const onLogin = user => dispatch(authOperations.logIn(user));
 
-  const { errors, values, handleSubmit, setFieldError, setFieldValue } =
-    useFormik({
-      initialValues: {
-        email: '',
-        password: '',
-      },
-      validateOnChange: false,
-      validate,
-      onSubmit: ({ email, password }) => onLogin({ email, password }),
-    });
+  const { errors, values, handleSubmit, setFieldError, setFieldValue } = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validateOnChange: false,
+    validate,
+    onSubmit: ({ email, password }) => onLogin({ email, password }),
+  });
 
   const [onValidation, setOnValidation] = useState();
 
@@ -53,9 +52,7 @@ export default function LoginPage() {
     const sid = params.get('sid');
 
     if (accessToken && refreshToken && sid) {
-      dispatch(
-        authOperations.loginWithGoogle({ accessToken, refreshToken, sid }),
-      );
+      dispatch(authOperations.loginWithGoogle({ accessToken, refreshToken, sid }));
       window.location.reload();
     }
 
@@ -75,36 +72,30 @@ export default function LoginPage() {
 
   return (
     <div className={loginStyles.modal}>
-      <div className={loginStyles.modalBodyFirst}>
-        <p
-          className={`${loginStyles.modalTitle} ${loginStyles.modalTitleGoogle}`}
-        >
+      {/* <div className={loginStyles.modalBodyFirst}>
+        <p className={`${loginStyles.modalTitle} ${loginStyles.modalTitleGoogle}`}>
           Вы можете авторизоваться с помощью Google Account:
         </p>
         <a
           className={loginStyles.googleBtn}
-          href="https://kapusta-backend.herokuapp.com/api/users/google"
+          href={process.env.REACT_APP_BACKEND_URI + '/api/users/google'}
         >
-          <img
-            src={googleSymbol}
-            alt="Google Symbol"
-            className={loginStyles.googleSymbol}
-          />
+          <img src={googleSymbol} alt="Google Symbol" className={loginStyles.googleSymbol} />
           Google
         </a>
         <p className={loginStyles.modalTitle}>
-          Или зайти с помощью e-mail и пароля, предварительно
-          зарегистрировавшись:
+          Или зайти с помощью e-mail и пароля, предварительно зарегистрировавшись:
         </p>
+      </div> */}
+      <div className={loginStyles.modalBodyFirst}>
+        <h2 className={loginStyles.modalTitle}>Авторизация</h2>
       </div>
 
       <form onSubmit={handleSubmit} autoComplete="off" noValidate>
         <div className={loginStyles.modalBodySecond}>
           <div className={loginStyles.modalGroup}>
             <label className={loginStyles.modalLabel}>
-              {errors.email ? (
-                <span className={loginStyles.errorStar}>*</span>
-              ) : null}
+              {errors.email ? <span className={loginStyles.errorStar}>*</span> : null}
               Электронная почта:
               <input
                 type="email"
@@ -115,9 +106,7 @@ export default function LoginPage() {
                 value={values.email}
                 autoComplete="off"
               />
-              {errors.email ? (
-                <span className={loginStyles.error}>{errors.email}</span>
-              ) : null}
+              {errors.email ? <span className={loginStyles.error}>{errors.email}</span> : null}
               {fetchError?.login ? (
                 <Link
                   to="/forgotten"
@@ -132,9 +121,7 @@ export default function LoginPage() {
 
           <div className={loginStyles.modalGroup}>
             <label className={loginStyles.modalLabel}>
-              {errors.password ? (
-                <span className={loginStyles.errorStar}>*</span>
-              ) : null}
+              {errors.password ? <span className={loginStyles.errorStar}>*</span> : null}
               Пароль:
               <input
                 type="password"
@@ -145,17 +132,12 @@ export default function LoginPage() {
                 value={values.password}
                 autoComplete="off"
               />
-              {errors.password ? (
-                <div className={loginStyles.error}>{errors.password}</div>
-              ) : null}
+              {errors.password ? <div className={loginStyles.error}>{errors.password}</div> : null}
             </label>
           </div>
         </div>
         <div className={loginStyles.modalButtons}>
-          <button
-            type="submit"
-            className={`${loginStyles.active} ${loginStyles.modalLogin}`}
-          >
+          <button type="submit" className={`${loginStyles.active} ${loginStyles.modalLogin}`}>
             Войти
           </button>
           <Link className={loginStyles.modalRegister} to="/register">

@@ -1,8 +1,7 @@
 const passport = require('passport');
 require('../config/passport');
 const { httpCode } = require('./constants');
-require('dotenv').config()
-
+require('dotenv').config();
 
 const guard = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (error, user) => {

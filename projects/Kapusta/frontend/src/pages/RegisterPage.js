@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
-import { useFormik } from 'formik';
-import { authSelectors } from '../redux/selectors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import auth from '../redux/operations/auth-operations';
-import GoogleRegistration from '../components/GoogleRegistration';
-import registerStyles from '../styles/Register.module.scss';
+import { useFormik } from 'formik';
+
 import useDebounce from '../helpers/useDebounce';
+import { authSelectors } from '../redux/selectors';
+import auth from '../redux/operations/auth-operations';
+// import GoogleRegistration from '../components/GoogleRegistration';
+import registerStyles from '../styles/Register.module.scss';
 
 const validate = values => {
   const errors = {};
@@ -15,9 +16,7 @@ const validate = values => {
     errors.name = 'Это обязательное поле';
   } else if (values.name.length < 3 || values.name.length > 40) {
     errors.name = 'Имя должно быть от 3 до 40 символов';
-  } else if (
-    !/^[A-z]+(?:\s+[A-z]+)*$|^[А-я]+(?:\s+[А-я]+)*$/.test(values.name)
-  ) {
+  } else if (!/^[A-z]+(?:\s+[A-z]+)*$|^[А-яІіЄє]+(?:\s+[А-яІіЄє]+)*$/.test(values.name)) {
     errors.name = 'Недопустимые символы в имени';
   }
 
@@ -55,27 +54,24 @@ export default function RegisterPage({ location }) {
     authSelectors.getEmailVerification,
   );
   const [timer, setTimer] = useState(
-    verificationStart
-      ? 60 - (Date.parse(new Date()) - verificationStart) / 1000
-      : 60,
+    verificationStart ? 60 - (Date.parse(new Date()) - verificationStart) / 1000 : 60,
   );
 
-  const { errors, values, handleSubmit, setFieldError, setFieldValue } =
-    useFormik({
-      initialValues: {
-        name: '',
-        email: '',
-        password: '',
-        confirm: '',
-      },
-      validateOnChange: false,
-      validate,
-      onSubmit: ({ name, email, password }, { resetForm }) => {
-        dispatch(auth.register({ name, email, password }));
+  const { errors, values, handleSubmit, setFieldError, setFieldValue } = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirm: '',
+    },
+    validateOnChange: false,
+    validate,
+    onSubmit: ({ name, email, password }, { resetForm }) => {
+      dispatch(auth.register({ name, email, password }));
 
-        resetForm({ values });
-      },
-    });
+      resetForm({ values });
+    },
+  });
 
   const resendEmailVerificationHandler = async () => {
     dispatch(auth.resendEmailVerification(email));
@@ -120,8 +116,7 @@ export default function RegisterPage({ location }) {
     <div className={registerStyles.modalVerification}>
       <div className={registerStyles.modalBodyFirst}>
         <p className={registerStyles.modalTitleVerification}>
-          На Ваш email (<span>{email}</span>) было отправлено письмо с
-          дальнейшими инструкциями.
+          На Ваш email (<span>{email}</span>) было отправлено письмо с дальнейшими инструкциями.
         </p>
         <p className={registerStyles.modalTitleVerification}>
           {timer ? (
@@ -150,23 +145,22 @@ export default function RegisterPage({ location }) {
     </div>
   ) : (
     <div className={registerStyles.modal}>
-      <div className={registerStyles.modalBodyFirst}>
-        <p
-          className={`${registerStyles.modalTitle} ${registerStyles.modalTitleGoogle}`}
-        >
+      {/* <div className={registerStyles.modalBodyFirst}>
+        <p className={`${registerStyles.modalTitle} ${registerStyles.modalTitleGoogle}`}>
           Вы можете зарегистрироваться с помощью Google Account:
         </p>
         <GoogleRegistration />
         <p className={registerStyles.modalTitle}>Или с помощью e-mail:</p>
+      </div> */}
+      <div className={registerStyles.modalBodyFirst}>
+        <p className={registerStyles.modalTitle}>Регистрация</p>
       </div>
 
       <form onSubmit={handleSubmit} noValidate>
         <div className={registerStyles.modalBodyFirst}>
           <div className={registerStyles.modalGroup}>
             <label className={registerStyles.modalLabel}>
-              {errors.name ? (
-                <span className={registerStyles.errorStar}>*</span>
-              ) : null}
+              {errors.name ? <span className={registerStyles.errorStar}>*</span> : null}
               Имя:
               <input
                 type="text"
@@ -177,17 +171,13 @@ export default function RegisterPage({ location }) {
                 value={values.name}
                 autoComplete="off"
               />
-              {errors.name ? (
-                <div className={registerStyles.error}>{errors.name}</div>
-              ) : null}
+              {errors.name ? <div className={registerStyles.error}>{errors.name}</div> : null}
             </label>
           </div>
 
           <div className={registerStyles.modalGroup}>
             <label className={registerStyles.modalLabel}>
-              {errors.email ? (
-                <span className={registerStyles.errorStar}>*</span>
-              ) : null}
+              {errors.email ? <span className={registerStyles.errorStar}>*</span> : null}
               Электронная почта:
               <input
                 type="email"
@@ -198,14 +188,10 @@ export default function RegisterPage({ location }) {
                 value={values.email}
                 autoComplete="off"
               />
-              {errors.email ? (
-                <div className={registerStyles.error}>{errors.email}</div>
-              ) : null}
+              {errors.email ? <div className={registerStyles.error}>{errors.email}</div> : null}
               {fetchError?.email ? (
                 <>
-                  <span className={registerStyles.error}>
-                    {fetchError.email}
-                  </span>
+                  <span className={registerStyles.error}>{fetchError.email}</span>
                   <Link
                     to="/forgotten"
                     className={registerStyles.btnResendVerification}
@@ -220,9 +206,7 @@ export default function RegisterPage({ location }) {
 
           <div className={registerStyles.modalGroup}>
             <label className={registerStyles.modalLabel}>
-              {errors.password ? (
-                <span className={registerStyles.errorStar}>*</span>
-              ) : null}
+              {errors.password ? <span className={registerStyles.errorStar}>*</span> : null}
               Пароль:
               <input
                 type="password"
@@ -240,9 +224,7 @@ export default function RegisterPage({ location }) {
 
           <div className={registerStyles.modalGroup}>
             <label className={registerStyles.modalLabel}>
-              {errors.confirm ? (
-                <span className={registerStyles.errorStar}>*</span>
-              ) : null}
+              {errors.confirm ? <span className={registerStyles.errorStar}>*</span> : null}
               Подтверждение пароля:
               <input
                 type="password"
@@ -252,9 +234,7 @@ export default function RegisterPage({ location }) {
                 onChange={handleChange}
                 value={values.confirm}
               />
-              {errors.confirm ? (
-                <div className={registerStyles.error}>{errors.confirm}</div>
-              ) : null}
+              {errors.confirm ? <div className={registerStyles.error}>{errors.confirm}</div> : null}
             </label>
           </div>
         </div>

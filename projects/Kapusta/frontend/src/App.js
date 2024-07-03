@@ -1,14 +1,18 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { Switch } from 'react-router';
-import PublicRoute from './components/PublicRoute';
-import PrivateRoute from './components/PrivateRoute';
+import { Route, Routes } from 'react-router-dom';
+
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { authOperations } from './redux/operations';
+import { authSelectors } from './redux/selectors';
+
+import appStyles from './styles/AppCommon.module.scss';
+
 import NotFound from './pages/NotFoundPage';
 import Loader from './components/Loader/';
 import Header from './components/Header';
-import { authSelectors } from './redux/selectors';
-import appStyles from './styles/AppCommon.module.scss';
+import PublicRoute from './components/PublicRoute';
+import PrivateRoute from './components/PrivateRoute';
 
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const RegisterPage = lazy(() => import('./pages/RegisterPage'));
@@ -39,32 +43,47 @@ export default function App() {
     <div className={isLoggedIn ? appStyles.loggedInBg : appStyles.loggedOutBg}>
       <Header />
       <Suspense fallback={<Loader />}>
-        <Switch>
-          <PrivateRoute exact path="/" redirectTo="/login" />
-          <PublicRoute path="/login" restricted redirectTo="/main-page">
-            <LoginPage />
-          </PublicRoute>
-          <PublicRoute path="/register" restricted redirectTo="/main-page">
-            <RegisterPage />
-          </PublicRoute>
-          <PublicRoute path="/forgotten" restricted>
-            <ForgottenPage />
-          </PublicRoute>
-          <PublicRoute
-            path="/resetPassword/:verificationToken"
-            restricted
-            component={ResetPasswordPage}
+        <Routes>
+          <Route exact path="/" element={<PrivateRoute redirectTo="/login" />} />
+
+          <Route
+            path="/login"
+            element={<PublicRoute redirectTo="/main-page" restricted children={<LoginPage />} />}
           />
-          <PrivateRoute path="/main-page" restricted redirectTo="/login">
-            <ExpenseIncomePage />
-          </PrivateRoute>
-          <PrivateRoute path="/report-page" restricted redirectTo="/login">
-            <ReportPage />
-          </PrivateRoute>
-          <PublicRoute>
-            <NotFound />
-          </PublicRoute>
-        </Switch>
+
+          <Route
+            path="/register"
+            element={<PublicRoute redirectTo="/main-page" restricted children={<RegisterPage />} />}
+          />
+
+          <Route
+            path="/forgotten"
+            element={<PublicRoute redirectTo="/main-page" restricted children={<ForgottenPage />} />}
+          />
+
+          <Route
+            path="/resetPassword/:verificationToken"
+            element={
+              <PublicRoute redirectTo="/main-page" restricted children={<ResetPasswordPage />} />
+            }
+          />
+
+          <Route
+            exact
+            path="/main-page"
+            element={
+              <PrivateRoute redirectTo="/login" restricted children={<ExpenseIncomePage />} />
+            }
+          />
+
+          <Route
+            exact
+            path="/report-page"
+            element={<PrivateRoute redirectTo="/login" restricted children={<ReportPage />} />}
+          />
+
+          <Route path="*" element={<PublicRoute children={<NotFound />} />} />
+        </Routes>
       </Suspense>
     </div>
   );

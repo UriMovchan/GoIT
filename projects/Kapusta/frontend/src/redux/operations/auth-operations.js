@@ -8,7 +8,7 @@ import {
   logoutSuccess,
 } from '../../services/pnotify';
 
-axios.defaults.baseURL = 'https://kapusta-backend-app.herokuapp.com/api';
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URI + '/api';
 
 const accessToken = {
   set(token) {
@@ -28,9 +28,7 @@ const register = credentials => async dispatch => {
     dispatch(authActions.registerSuccess(data));
   } catch (error) {
     if (error.response.data.code === 409) {
-      dispatch(
-        authActions.registerError({ email: 'Email уже зарегистрирован' }),
-      );
+      dispatch(authActions.registerError({ email: 'Email уже зарегистрирован' }));
     } else {
       registerError();
     }
@@ -45,9 +43,7 @@ const registerWithGoogle = credentials => async dispatch => {
     await dispatch(authActions.registerGoogleSuccess(data));
   } catch (error) {
     if (error.response.data.code === 409) {
-      dispatch(
-        authActions.registerGoogleError({ email: 'Email уже зарегистрирован' }),
-      );
+      dispatch(authActions.registerGoogleError({ email: 'Email уже зарегистрирован' }));
     } else {
       registerError();
     }
@@ -91,12 +87,16 @@ const getCurrentUser = () => async (dispatch, getState) => {
   }
 
   dispatch(authActions.getCurrentUserRequest());
+
   try {
     accessToken.set(persistedToken);
+
     const { data } = await axios.get('/users/current');
+
     dispatch(authActions.getCurrentUserSuccess(data));
   } catch (error) {
     dispatch(authActions.getCurrentUserError(error.message));
+
     refreshSession(dispatch, getState);
   }
 };

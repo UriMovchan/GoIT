@@ -9,6 +9,8 @@ if (process.env.NODE_ENV === 'test') {
   uriDb = process.env.URI_DB;
 }
 
+mongoose.set('strictQuery', true);
+
 const db = mongoose.connect(uriDb, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -25,8 +27,8 @@ mongoose.connection.on('disconnected', () =>
 );
 process.on('SIGINT', () => {
   mongoose.connection.close(() => {
-    console.log('Connection for DB disconnected and terminated')
-    process.exit(1)
-  })
-})
+    console.log('Connection for DB disconnected and terminated');
+    process.exit(1);
+  });
+});
 module.exports = db;

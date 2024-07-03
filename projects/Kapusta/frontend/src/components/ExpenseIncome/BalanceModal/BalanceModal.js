@@ -7,19 +7,20 @@ const BalanceModal = ({ closeModal }) => {
 
   useEffect(() => {
     const handleCloseModal = e => {
-      if (!modalContainer.current) {
-        return;
-      }
-      if (modalContainer.current.contains(e.target)) {
-        return;
-      }
+      // if (!modalContainer.current) {
+      //   return;
+      // }
+      // if (modalContainer.current.contains(e.target)) {
+      //   return;
+      // }
       closeModal();
     };
+
     window.addEventListener('click', handleCloseModal);
 
-    return () => {
-      window.removeEventListener('click', handleCloseModal);
-    };
+    // return () => {
+    //   window.removeEventListener('click', handleCloseModal);
+    // };
   }, [closeModal]);
 
   return (
@@ -29,9 +30,7 @@ const BalanceModal = ({ closeModal }) => {
         <p className={styles.content}>
           Привет! Для начала работы внеси текущий баланс своего счета!
         </p>
-        <p className={styles.content}>
-          {`Ты не можешь тратить деньги, пока их у тебя нет :)`}
-        </p>
+        <p className={styles.content}>{`Ты не можешь тратить деньги, пока их у тебя нет :)`}</p>
         {/* <CloseIcon onClick={closeModal} className={styles.closeButton} /> */}
       </div>
     </div>

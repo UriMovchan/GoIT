@@ -80,14 +80,14 @@ const login = async (req, res, next) => {
         { uid: user._id, sid: newSession._id },
         process.env.JWT_SECRET,
         {
-          expiresIn: process.env.JWT_ACCESS_EXPIRE_TIME,
+          expiresIn: +process.env.JWT_ACCESS_EXPIRE_TIME,
         },
       );
       const refreshToken = jwt.sign(
         { uid: user._id, sid: newSession._id },
         process.env.JWT_SECRET,
         {
-          expiresIn: process.env.JWT_REFRESH_EXPIRE_TIME,
+          expiresIn: +process.env.JWT_REFRESH_EXPIRE_TIME,
         },
       );
       return UserSchema.findOne({ email }).exec((err, data) => {

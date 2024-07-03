@@ -6,13 +6,13 @@ class EmailService {
     this.sender = sender;
     switch (env) {
       case 'development':
-        this.link = 'http://localhost:3000';
+        this.link = process.env.LINK_THIS_APP;
         break;
       case 'production':
         this.link = process.env.LINK_THIS_APP;
         break;
       default:
-        this.link = 'http://localhost:3000';
+        this.link = process.env.LINK_THIS_APP;
         break;
     }
   }
@@ -35,7 +35,7 @@ class EmailService {
           button: {
             color: '#22BC66',
             text: 'Confirm your account',
-            link: `${this.link}/api/users/verify/${verifyToken}`,
+            link: `${this.link}api/users/verify/${verifyToken}`,
           },
         },
         outro:
